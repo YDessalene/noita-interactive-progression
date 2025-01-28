@@ -7,14 +7,17 @@ function loadImage(path) {
   return require(`../${path}`);
 }
 
-export default function Icon({ prefix, icon, disabled = false }) {
+export default function Icon({ prefix, icon, disabled = false, editVisibility, completed, completionSelection }) {
   // The game has the same quirk - it's counted in the header, but not actually displayed
   if (icon.id === "turret_right") {
     return null;
   }
 
   const handleClick = () => {
-    if (disabled || !icon.wiki_url) {
+    if (editVisibility) {
+      completionSelection(icon.name);
+    }
+    if (editVisibility || completed.includes(icon.name) || disabled || !icon.wiki_url) {
       return;
     }
 
@@ -27,7 +30,7 @@ export default function Icon({ prefix, icon, disabled = false }) {
     <>
       <div
         className={styles.container}
-        aria-disabled={disabled}
+        aria-disabled={disabled || completed.includes(icon.name)}
         id={id}
         onClick={handleClick}
       >

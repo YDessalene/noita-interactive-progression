@@ -106,3 +106,18 @@ input {
     color: var(--active-yellow);
   }
 }
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.edit-icon {
+  cursor: pointer;
+  height: 26px;
+  width: 26px;
+
+  &.editting {
+    color: yellow;
+  }
+}

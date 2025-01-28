@@ -33,6 +33,7 @@
 
   height: calc(16px * var(--zoom));
   width: calc(16px * var(--zoom));
+  cursor: pointer;
 }
 
 .tooltip {

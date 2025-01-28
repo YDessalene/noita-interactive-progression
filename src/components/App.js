@@ -4,6 +4,7 @@ import data from "../icons.json";
 import Hamis from "../img/longleg.png";
 import styles from "./App.module.css";
 import IconTable from "./IconTable";
+import { MdEdit } from "react-icons/md";
 
 const MATCH_LETTER = /^[a-zA-Z]$/;
 
@@ -18,6 +19,7 @@ export default function App() {
   const perks = useMemo(() => data.perks.map(mapFilter(filter)), [filter]);
   const spells = useMemo(() => data.spells.map(mapFilter(filter)), [filter]);
   const enemies = useMemo(() => data.enemies.map(mapFilter(filter)), [filter]);
+  const [editVisibility, setEditVisibility] = useState(false);
 
   useEffect(() => {
     const handler = function (e) {
@@ -35,16 +37,19 @@ export default function App() {
   return (
     <div className={styles.container}>
       <div className={styles.filter}>
-        <input
-          placeholder="Search"
-          id="filter"
-          value={filter}
-          onInput={(e) => setFilter(e.target.value.toLowerCase())}
-        />
+        <span className={styles.header}>
+          <input
+            placeholder="Search"
+            id="filter"
+            value={filter}
+            onInput={(e) => setFilter(e.target.value.toLowerCase())}
+          />
+          <MdEdit onClick={() => [setEditVisibility(!editVisibility), setFilter('')]} className={`${styles['edit-icon']} ${editVisibility ? styles.editting : ''}`} />
+        </span>
         <div className={styles.tables}>
-          <IconTable name="Perks" icons={perks} columns={9} />
-          <IconTable name="Spells" icons={spells} columns={12} />
-          <IconTable name="Enemies" icons={enemies} columns={9} />
+          <IconTable name="Perks" icons={perks} columns={9} editVisibility={editVisibility} />
+          <IconTable name="Spells" icons={spells} columns={12} editVisibility={editVisibility} />
+          <IconTable name="Enemies" icons={enemies} columns={9} editVisibility={editVisibility} />
         </div>
       </div>
       <img src={Hamis} alt="Hämis" className={styles.hamis} />

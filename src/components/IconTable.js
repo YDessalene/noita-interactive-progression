@@ -3,13 +3,26 @@ import PropTypes from "prop-types";
 import Icon from "./Icon";
 
 import styles from "./IconTable.module.css";
+import { useState } from "react";
 
-export default function IconTable({ name, icons, columns }) {
-  let totalCount = icons.length;
-  if (name === "Enemies") {
-    // To replicate the in-game behavior - 100.5% 186/185
-    totalCount += 1;
-  }
+export default function IconTable({ name, icons, columns, editVisibility }) {
+  const [completed, setCompleted] = useState(JSON.parse(localStorage.getItem(`completion-${name}`)) || []);
+  let totalCount = completed.length;
+  // if (name === "Enemies") {
+  //   // To replicate the in-game behavior - 100.5% 186/185
+  //   totalCount += 1;
+  // }
+
+  const handleCompletion = (iconName) => {
+    let newList;
+    if (completed.includes(iconName)) {
+      newList = completed.filter(item => item !== iconName);
+    } else {
+      newList = [...completed, iconName];
+    }
+    localStorage.setItem(`completion-${name}`, JSON.stringify(newList));
+    setCompleted(newList);
+  };
 
   return (
     <div>
@@ -31,6 +44,9 @@ export default function IconTable({ name, icons, columns }) {
             prefix={name}
             icon={icon}
             disabled={icon.disabled}
+            editVisibility={editVisibility}
+            completed={completed}
+            completionSelection={handleCompletion}
           />
         ))}
       </div>
