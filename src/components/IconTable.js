@@ -7,11 +7,14 @@ import { useState } from "react";
 
 export default function IconTable({ name, icons, columns, editVisibility }) {
   const [completed, setCompleted] = useState(JSON.parse(localStorage.getItem(`completion-${name}`)) || []);
-  let totalCount = completed.length;
-  // if (name === "Enemies") {
-  //   // To replicate the in-game behavior - 100.5% 186/185
-  //   totalCount += 1;
-  // }
+  let totalCount = icons.length;
+  let selected = completed.length;
+  if (name === "Enemies") {
+    // To replicate the in-game behavior - 100.5% 186/185
+    // accounts for player death, but doesn't show it in the total count
+    totalCount -= 1;
+    selected += 1;
+  }
 
   const handleCompletion = (iconName) => {
     let newList;
@@ -28,10 +31,10 @@ export default function IconTable({ name, icons, columns, editVisibility }) {
     <div>
       <div className={styles.header}>
         <span className={styles.percent}>
-          {name} - {Math.round((totalCount / icons.length) * 1000) / 10}%
+          {name} - {Math.round((selected / totalCount) * 1000) / 10}%
         </span>{" "}
         <span className={styles.total}>
-          {totalCount}/{icons.length}
+          {selected}/{totalCount}
         </span>
       </div>
       <div
