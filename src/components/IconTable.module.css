@@ -1,0 +1,16 @@
+.header {
+    font-size: calc(7.5px * var(--zoom));
+    margin-bottom: 3px;
+}
+
+.percent {
+    color: var(--font-color);
+}
+
+.total {
+    color: var(--font-color-muted);
+}
+
+.table {
+    display: grid;
+}
